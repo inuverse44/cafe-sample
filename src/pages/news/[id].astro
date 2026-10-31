@@ -1,0 +1,37 @@
+---
+// P-05 お知らせの詳細
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { url } from "../../lib/url";
+
+export async function getStaticPaths() {
+  return (await getCollection("news")).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Base title={entry.data.title} description={entry.data.summary}>
+  <article class="container page article">
+    <p class="crumb"><a href={url("/news/")}>お知らせ</a></p>
+    <time datetime={entry.data.date.toISOString().slice(0, 10)}>{entry.data.date.toISOString().slice(0, 10).replaceAll("-", ".")}</time>
+    <h1 class="page-title">{entry.data.title}</h1>
+    <div class="body"><Content /></div>
+  </article>
+</Base>
+
+<style>
+  .article {
+    max-width: 44rem;
+  }
+  .crumb {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+  .crumb a::before {
+    content: "← ";
+  }
+  time {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+</style>

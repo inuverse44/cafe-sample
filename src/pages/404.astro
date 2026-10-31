@@ -1,0 +1,10 @@
+---
+import Base from "../layouts/Base.astro";
+import { url } from "../lib/url";
+---
+<Base title="ページが見つかりません" description="お探しのページは見つかりませんでした。">
+  <section class="container page">
+    <h1 class="page-title">ページが見つかりません</h1>
+    <p><a href={url("/")}>トップへ戻る</a></p>
+  </section>
+</Base>

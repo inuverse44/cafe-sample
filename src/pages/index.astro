@@ -1,0 +1,169 @@
+---
+// P-01 トップ
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Photo from "../components/Photo.astro";
+import { url } from "../lib/url";
+
+const news = (await getCollection("news")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
+---
+<Base description="森のそばにある、本と珈琲の小さなカフェ。夜は星を眺めながら過ごせます（制作例のための架空のお店です）。">
+  <section class="hero">
+    <img
+      class="hero-img"
+      src={url("/images/hero-800.webp")}
+      srcset={`${url("/images/hero-800.webp")} 800w, ${url("/images/hero-1600.webp")} 1600w`}
+      sizes="100vw"
+      width="1600"
+      height="1143"
+      alt="木々の間に広がる星空"
+      fetchpriority="high"
+    />
+    <div class="hero-text container">
+      <p class="eyebrow">Books, Coffee &amp; Stars</p>
+      <h1>星と過ごす珈琲夜</h1>
+      <p class="tagline">森のそばの、本と珈琲の小さなカフェ。<br />夜は、星を眺めながら。</p>
+      <p class="hours">営業 15:00〜23:00 ／ 月曜定休</p>
+    </div>
+  </section>
+
+  <section class="container intro">
+    <h2>木と本に囲まれて、ゆっくりと</h2>
+    <p>
+      木の机と、壁いっぱいの本棚。窓の外には森が広がっています。
+      日が暮れたら、テラスで星を眺めながら、深めに焙煎した珈琲をどうぞ。
+    </p>
+    <div class="cards">
+      <a class="card" href={url("/menu/")}>
+        <Photo name="menu" large={1600} alt="珈琲と焼き菓子が並ぶテーブル" />
+        <span class="card-title">メニュー</span>
+        <span class="card-text">珈琲、お茶、焼き菓子と夜の軽食</span>
+      </a>
+      <a class="card" href={url("/about/")}>
+        <Photo name="books" large={1600} alt="窓辺の机に積まれた本" />
+        <span class="card-title">お店について</span>
+        <span class="card-text">本棚と、森と、星のテラス</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="container news" aria-labelledby="news-heading">
+    <h2 id="news-heading">お知らせ</h2>
+    <ul>
+      {news.map((n) => (
+        <li>
+          <time datetime={n.data.date.toISOString().slice(0, 10)}>{n.data.date.toISOString().slice(0, 10).replaceAll("-", ".")}</time>
+          <a href={url(`/news/${n.id}/`)}>{n.data.title}</a>
+        </li>
+      ))}
+    </ul>
+    <p class="more"><a href={url("/news/")}>お知らせの一覧へ</a></p>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    /* 画像の縦横比で行が伸びないよう、高さを固定する */
+    height: min(68vh, 34rem);
+    min-height: 24rem;
+    grid-template-rows: 100%;
+    background: var(--night);
+    color: var(--on-night);
+    overflow: hidden;
+  }
+  .hero-img {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+  }
+  .hero-text {
+    /* 写真は opacity で前面の重なりになるため、文字を上に重ねる */
+    position: relative;
+    z-index: 1;
+    grid-area: 1 / 1;
+    align-self: end;
+    padding-block: 3rem;
+    background: linear-gradient(to top, rgb(11 15 22 / 0.85), transparent);
+    max-width: none;
+    /* 文字の左端を、下の本文（最大幅 var(--content) の中央寄せ）とそろえる */
+    padding-inline: max(var(--gutter), calc((100% - var(--content)) / 2 + var(--gutter)));
+  }
+  .eyebrow {
+    margin: 0;
+    color: var(--star);
+    font-size: 0.875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 0.25rem 0 0.5rem;
+    font-size: clamp(2rem, 7vw, 3.25rem);
+  }
+  .tagline {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+  }
+  .hours {
+    margin: 1rem 0 0;
+    color: var(--on-night-muted);
+    font-size: 0.9375rem;
+  }
+  .intro,
+  .news {
+    padding-block: 3rem 1rem;
+  }
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+  }
+  .cards {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    margin-top: 2rem;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .card-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  .card:hover .card-title {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .card-text {
+    color: var(--text-muted);
+  }
+  .news ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--border);
+  }
+  .news li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  time {
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .more {
+    text-align: right;
+  }
+</style>

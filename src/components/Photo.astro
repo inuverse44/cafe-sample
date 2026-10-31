@@ -1,0 +1,42 @@
+---
+// 写真（幅に応じて 800px と大きい版を切り替える）
+import { url } from "../lib/url";
+interface Props {
+  name: string;
+  large: number;
+  alt: string;
+  /** 縦横比。CSP によりインラインの style 属性は使えないので、クラスで指定する */
+  ratio?: "3-2" | "4-5" | "16-7";
+  priority?: boolean;
+}
+const { name, large, alt, ratio = "3-2", priority = false } = Astro.props;
+---
+<img
+  src={url(`/images/${name}-800.webp`)}
+  srcset={`${url(`/images/${name}-800.webp`)} 800w, ${url(`/images/${name}-${large}.webp`)} ${large}w`}
+  sizes="(min-width: 64rem) 60rem, 100vw"
+  width="800"
+  height="533"
+  alt={alt}
+  loading={priority ? "eager" : "lazy"}
+  fetchpriority={priority ? "high" : undefined}
+  class:list={["photo", `r-${ratio}`]}
+/>
+
+<style>
+  .r-3-2 {
+    aspect-ratio: 3 / 2;
+  }
+  .r-4-5 {
+    aspect-ratio: 4 / 5;
+  }
+  .r-16-7 {
+    aspect-ratio: 16 / 7;
+  }
+  .photo {
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 28px var(--shadow);
+  }
+</style>

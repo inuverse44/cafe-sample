@@ -1,0 +1,59 @@
+---
+// P-03 お店について
+import Base from "../layouts/Base.astro";
+import Photo from "../components/Photo.astro";
+---
+<Base title="お店について" description="木と本に囲まれた店内と、森に開いた窓、星を眺めるテラスについて（制作例のための架空のお店です）。">
+  <article class="container page">
+    <h1 class="page-title">お店について</h1>
+    <p class="lead">森のそばで、本と珈琲と、夜の星を。</p>
+
+    <section class="row">
+      <Photo name="books" large={1600} alt="窓辺の木の机に積まれた本" ratio="4-5" priority />
+      <div>
+        <h2>本と過ごす</h2>
+        <p>店内の本棚には、森の生き物の図鑑、星座の神話、旅のエッセイなどが並んでいます。どれも自由に手に取って、席でお読みいただけます。</p>
+        <p>おしゃべりよりも、ページをめくる音が似合う店でありたいと思っています。</p>
+      </div>
+    </section>
+
+    <section class="row reverse">
+      <Photo name="meadow" large={1600} alt="青空の下、草原の先に続く針葉樹の森" ratio="4-5" />
+      <div>
+        <h2>森と過ごす</h2>
+        <p>お店の前には草原が広がり、その先に森が続いています。昼間は風に揺れる草の音を、夕方には少しずつ暗くなっていく森の色を、窓からどうぞ。</p>
+      </div>
+    </section>
+
+    <section class="row">
+      <Photo name="hero" large={1600} alt="木々の間に広がる星空" ratio="4-5" />
+      <div>
+        <h2>星と過ごす</h2>
+        <p>日が暮れたら、テラスへどうぞ。街の明かりから少し離れているので、晴れた夜には天の川が見えることもあります。</p>
+        <p>月に一度、小さな星空観察会も開いています。</p>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .row {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+  @media (min-width: 48rem) {
+    .row {
+      grid-template-columns: 2fr 3fr;
+      gap: 3rem;
+    }
+    .row.reverse > :first-child {
+      order: 2;
+    }
+  }
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.5rem;
+  }
+</style>

@@ -1,0 +1,52 @@
+/* 色・文字・余白（docs/plan.md §4）。昼は白、夜は黒に近い紺。リンクは夜空の紺（夜は星の金） */
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --sunken: #f3f5f8;
+  --border: #dfe3ea;
+  --text: #1b2230;        /* 夜空の紺に近い墨色 */
+  --text-muted: #535b69;
+  --accent: #24467a;      /* 夜空の紺：リンクとボタン */
+  --accent-strong: #17305a;
+  --on-accent: #ffffff;
+  --star: #8a6212;        /* 星：小さな装飾だけ */
+  --night: #141c2b;       /* 夜空：ヒーローとフッター */
+  --on-night: #f3ead8;
+  --on-night-muted: #c9bfae;
+  --shadow: rgb(20 28 43 / 0.12);
+
+  --font-body: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+  --font-heading: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "Noto Serif CJK JP", serif;
+
+  --content: 64rem;
+  --gutter: 1rem;
+  --radius: 0.75rem;
+  color-scheme: light;
+}
+
+/* 夜：黒に近い紺 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0e16;
+    --surface: #121826;
+    --sunken: #070a10;
+    --border: #232b3a;
+    --text: #edf0f5;
+    --text-muted: #a9b1bf;
+    --accent: #e6c36a;
+    --accent-strong: #f2d48a;
+    --on-accent: #141c2b;
+    --star: #e6c36a;
+    --night: #070a10;
+    --on-night: #f3ead8;
+    --on-night-muted: #b9ae9b;
+    --shadow: rgb(0 0 0 / 0.4);
+    color-scheme: dark;
+  }
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --gutter: 2rem;
+  }
+}

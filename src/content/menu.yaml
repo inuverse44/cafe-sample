@@ -1,0 +1,22 @@
+# メニュー（架空）。分類を足すときは、id と order を付けて追加する
+- id: coffee
+  title: 珈琲
+  order: 10
+  items:
+    - { id: blend-night, name: 夜のブレンド, description: 深めに焙煎した、ゆっくり飲みたい一杯, price: 600 }
+    - { id: single-origin, name: 今月のシングルオリジン, description: 産地ごとの香りの違いを楽しめます, price: 700, note: 豆は月ごとに替わります }
+    - { id: cafe-au-lait, name: カフェオレ, description: やさしい甘さの、温かいミルク入り, price: 650 }
+- id: tea
+  title: お茶とそのほか
+  order: 20
+  items:
+    - { id: herb-tea, name: 森のハーブティー, description: カモミールとレモングラス, price: 600 }
+    - { id: hojicha, name: ほうじ茶, description: 香ばしく、夜にもやさしい, price: 500 }
+    - { id: hot-cocoa, name: ホットココア, description: 星空を眺めながらどうぞ, price: 600 }
+- id: sweets
+  title: 焼き菓子と軽食
+  order: 30
+  items:
+    - { id: scone, name: スコーン, description: クロテッドクリームとジャムを添えて, price: 450 }
+    - { id: cake-of-day, name: 本日のケーキ, description: 季節の果物を使って焼いています, price: 550 }
+    - { id: toast, name: 夜のトースト, description: はちみつとバターの厚切りトースト, price: 500, note: 20:00 以降は数量限定 }

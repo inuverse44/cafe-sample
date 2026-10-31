@@ -1,0 +1,152 @@
+---
+// 共通レイアウト：架空のお店である旨の表示（V-01）、ヘッダー、フッター
+import "../styles/tokens.css";
+import "../styles/global.css";
+import { url } from "../lib/url";
+
+interface Props {
+  title?: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const shopName = "星と過ごす珈琲夜";
+const fullTitle = title ? `${title} | ${shopName}` : shopName;
+const path = Astro.url.pathname;
+const nav = [
+  { href: url("/menu/"), label: "メニュー" },
+  { href: url("/about/"), label: "お店について" },
+  { href: url("/access/"), label: "アクセス" },
+  { href: url("/news/"), label: "お知らせ" },
+];
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <!-- 架空のお店のため、検索エンジンに載せない（実在のお店と誤解されないように） -->
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#141c2b" />
+    <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip" href="#main">本文へ移動</a>
+    <p class="notice" role="note">
+      このサイトは、<a href="https://www.inuverse.dev">Inuverse</a>が作ったホームページの見本サイトです。実在のお店ではありません。
+    </p>
+    <header class="header">
+      <div class="container inner">
+        <a class="brand" href={url("/")}><span class="star" aria-hidden="true">✦</span>{shopName}</a>
+        <nav aria-label="メインメニュー">
+          <ul>
+            {nav.map((item) => (
+              <li><a href={item.href} aria-current={path.startsWith(item.href) ? "page" : undefined}>{item.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="footer">
+      <div class="container">
+        <p class="footer-name">{shopName}</p>
+        <p>15:00〜23:00 ／ 月曜定休（架空のお店です）</p>
+        <p class="small">
+          写真：<a href="https://github.com/inuverse44/cafe-sample/blob/main/CREDITS.md">Unsplash の写真家のみなさん（クレジット）</a>
+          ／ 制作：<a href="https://www.inuverse.dev">Inuverse</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 20;
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .skip:focus {
+    top: 0.5rem;
+  }
+  .notice {
+    margin: 0;
+    padding: 0.5rem var(--gutter);
+    background: var(--sunken);
+    color: var(--text);
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  .header {
+    border-bottom: 1px solid var(--border);
+  }
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 1rem;
+  }
+  .brand {
+    color: var(--text);
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+  .star {
+    margin-right: 0.4rem;
+    color: var(--star);
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9375rem;
+  }
+  nav a:hover,
+  nav a[aria-current="page"] {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+  .footer {
+    margin-top: auto;
+    padding-block: 2.5rem;
+    background: var(--night);
+    color: var(--on-night);
+    text-align: center;
+  }
+  .footer p {
+    margin: 0.25rem 0;
+  }
+  .footer-name {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    letter-spacing: 0.08em;
+  }
+  .footer a {
+    color: var(--on-night);
+  }
+  .small {
+    color: var(--on-night-muted);
+    font-size: 0.8125rem;
+  }
+</style>

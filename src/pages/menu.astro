@@ -1,0 +1,71 @@
+---
+// P-02 メニュー（src/content/menu.yaml を書き換えるだけで更新できる。V-02）
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Photo from "../components/Photo.astro";
+
+const groups = (await getCollection("menu")).map((e) => e.data).sort((a, b) => a.order - b.order);
+const yen = new Intl.NumberFormat("ja-JP");
+---
+<Base title="メニュー" description="珈琲、お茶、焼き菓子と夜の軽食のメニューです（制作例のための架空のお店です）。">
+  <section class="container page">
+    <h1 class="page-title">メニュー</h1>
+    <p class="lead">価格はすべて税込です。豆や焼き菓子は、季節によって替わります。</p>
+    <Photo name="menu" large={1600} alt="カフェオレのカップと、マフィンやクロワッサンなどの焼き菓子" ratio="16-7" priority />
+    {groups.map((g) => (
+      <section class="group" aria-labelledby={`menu-${g.id}`}>
+        <h2 id={`menu-${g.id}`}>{g.title}</h2>
+        <dl>
+          {g.items.map((item) => (
+            <div class="item">
+              <dt>{item.name}</dt>
+              <dd class="price">{yen.format(item.price)}円</dd>
+              {item.description && <dd class="desc">{item.description}</dd>}
+              {item.note && <dd class="note">{item.note}</dd>}
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))}
+  </section>
+</Base>
+
+<style>
+  .group {
+    margin-top: 2.5rem;
+  }
+  h2 {
+    margin: 0 0 0.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid var(--accent);
+    font-size: 1.375rem;
+  }
+  dl {
+    margin: 0;
+  }
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  dt {
+    font-weight: 700;
+  }
+  dd {
+    margin: 0;
+  }
+  .price {
+    font-variant-numeric: tabular-nums;
+  }
+  .desc,
+  .note {
+    grid-column: 1 / -1;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+  .note::before {
+    content: "※ ";
+  }
+</style>

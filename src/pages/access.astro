@@ -1,0 +1,37 @@
+---
+// P-04 アクセス・営業時間（架空の地名だけを書き、実在の住所・地図は載せない）
+import Base from "../layouts/Base.astro";
+---
+<Base title="アクセス" description="所在地と営業時間です（制作例のための架空のお店です）。">
+  <section class="container page">
+    <h1 class="page-title">アクセス・営業時間</h1>
+    <p class="lead">このお店は架空のものです。所在地も架空の地名で、実在の場所ではありません。</p>
+    <dl class="info">
+      <div><dt>所在地</dt><dd>星見の森 3 丁目（架空の地名）</dd></div>
+      <div><dt>アクセス</dt><dd>森の入口のバス停から、歩いて 5 分</dd></div>
+      <div><dt>営業時間</dt><dd>15:00〜23:00（ラストオーダー 22:30）</dd></div>
+      <div><dt>定休日</dt><dd>月曜日（祝日の場合は翌日）</dd></div>
+      <div><dt>席</dt><dd>店内 14 席、テラス 6 席</dd></div>
+    </dl>
+  </section>
+</Base>
+
+<style>
+  .info {
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+  .info div {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  dt {
+    font-weight: 700;
+  }
+  dd {
+    margin: 0;
+  }
+</style>

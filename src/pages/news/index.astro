@@ -1,0 +1,46 @@
+---
+// P-05 お知らせの一覧（src/content/news/ に Markdown を足すだけで増える。V-02）
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { url } from "../../lib/url";
+
+const news = (await getCollection("news")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<Base title="お知らせ" description="星空観察会や、本棚の新しい本のお知らせです（制作例のための架空のお店です）。">
+  <section class="container page">
+    <h1 class="page-title">お知らせ</h1>
+    <ul class="list">
+      {news.map((n) => (
+        <li>
+          <time datetime={n.data.date.toISOString().slice(0, 10)}>{n.data.date.toISOString().slice(0, 10).replaceAll("-", ".")}</time>
+          <h2><a href={url(`/news/${n.id}/`)}>{n.data.title}</a></h2>
+          <p>{n.data.summary}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  time {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+  h2 {
+    margin: 0.25rem 0;
+    font-size: 1.25rem;
+  }
+  p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+</style>
